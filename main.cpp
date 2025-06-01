@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cstring>
+
 #include "server.h"
+#include "request.h"
 
 int main() {
     Server server{8080};
@@ -8,6 +10,11 @@ int main() {
     server.runForever([](char* buffer, int size) -> std::unique_ptr<char[]> {
         buffer[size] = '\0';
         std::cout << buffer << "\n";
+
+        const std::string bufferString{buffer};
+        const Request request = Request::fromString(bufferString);
+
+        std::cout << request;
 
         std::string payload =
             "HTTP/1.1 200 OK\r\n"
