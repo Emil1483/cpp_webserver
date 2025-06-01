@@ -43,7 +43,7 @@ Server::Server(int port) {
     std::cout << "Listening on port " << port << "...\n";
 }
 
-void Server::runForever(std::unique_ptr<char[]> (*func)(char*, int)) {
+void Server::runForever(std::unique_ptr<char[]> (*func)(char*, long unsigned int)) {
     while (true) {
         client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &sin_len);
         if (client_fd < 0) {
@@ -55,7 +55,7 @@ void Server::runForever(std::unique_ptr<char[]> (*func)(char*, int)) {
             << inet_ntoa(client_addr.sin_addr)
             << ":" << ntohs(client_addr.sin_port) << "\n";
         
-        ssize_t read_len = read(client_fd, buffer, sizeof(buffer) - 1);
+        ssize_t read_len = read(client_fd, buffer, sizeof(buffer));
         std::unique_ptr<char[]> response = func(buffer, read_len);
 
         write(client_fd, response.get(), strlen(response.get()));

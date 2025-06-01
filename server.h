@@ -15,5 +15,5 @@ class Server {
         Server(const Server& lhs) = delete;
         Server& operator=(const Server& lhs) = delete;
 
-        void runForever(std::unique_ptr<char[]> (*func)(char*, int));
+        void runForever(std::unique_ptr<char[]> (*func)(char*, long unsigned int));
 };
