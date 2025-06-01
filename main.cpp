@@ -3,6 +3,7 @@
 
 #include "server.h"
 #include "request.h"
+#include "response.h"
 
 int main() {
     Server server{8080};
@@ -16,15 +17,18 @@ int main() {
 
         std::cout << request;
 
-        std::string payload =
-            "HTTP/1.1 200 OK\r\n"
-            "Content-Type: text/html; charset=UTF-8\r\n"
-            "Connection: close\r\n"
-            "\r\n"
+        const Response response {
+            "200 OK", 
+            {
+                {"Content-Type", "text/html; charset=UTF-8"},
+                {"Connection", "close"},
+            }, 
             "<!DOCTYPE html>"
             "<html><head><title>Simple Server</title></head>"
-            "<body><h1>Hello, world!</h1></body></html>";
+            "<body><h1>Hello, world!</h1></body></html>"
+        };
         
+        auto payload = response.toString();
         const size_t len = payload.size();
         std::unique_ptr<char[]> responseBuffer{new char[len + 1]};
         std::memcpy(responseBuffer.get(), payload.data(), len + 1);

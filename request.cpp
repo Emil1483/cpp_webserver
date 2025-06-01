@@ -39,6 +39,6 @@ std::ostream& operator<<(std::ostream& io, const Request& r) {
     for (const auto& [key, value] : r.headers) {
         io << key << ": " << value << "\n";
     }
-    io << "Body:\n" << r.body.get() << "\n";
+    io << "Body:\n" << r.body.get();
     return io;
 }
